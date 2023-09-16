@@ -15,28 +15,30 @@ func main() {
     inFiles := flag.Args()
 
     if len(inFiles) != 2 {
-        fmt.Printf(`Usage: %s <config.toml> <input.vcf>`, os.Args[0])
+        fmt.Printf(`Usage: %s <file_a> <file_b>`, os.Args[0])
         fmt.Println()
         os.Exit(2)
     }
 
-    tomlFile := inFiles[0]
-    queryFile := inFiles[1]
+    file_a := inFiles[0]
+    file_b := inFiles[1]
 
-    // REQUIRED
-	_, err_query := os.Stat(queryFile)
-    if err_query != nil {
-        fmt.Fprintf(os.Stderr, "\nERROR: can't find query file: %s\n", queryFile)
-        os.Exit(2)
+    // Required
+	_, err_a := os.Stat(file_a)
+    if err_a != nil {
+        fmt.Fprintf(os.Stderr, "\nERROR: failed os.Stat call on: %s\n", file_a)
+        panic(err_a)
     }
 
     // Required
     runtime.GOMAXPROCS(4)
 
     // Trigger
-    _, err_toml := os.Open(tomlFile)
-    if err_toml != nil {
-        panic(err_toml)
+    // Must be a second file; does not work if provided file_a above
+    _, err_b := os.Open(file_b)
+    if err_b != nil {
+        fmt.Fprintf(os.Stderr, "\nERROR: failed os.Open call on: %s\n", file_b)
+        panic(err_b)
     }
 
 }

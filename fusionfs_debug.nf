@@ -2,32 +2,29 @@ import java.util.stream.IntStream
 
 
 process FUSIONFS_DEBUG {
-    tag "${meta.id}"
+    tag "${n}"
 
-    container 'docker.io/scwatts/fusionfs_debug:2309.12'
+    container 'docker.io/scwatts/fusionfs_debug:2309.15'
 
     input:
-    tuple val(meta), path(vcf)
-    path annotations_dir
+    path file_a
+    path file_b
     each n
 
     script:
     """
-    set -o pipefail
-    fusionfs_debug ${annotations_dir}/vcfanno_annotations.toml ${vcf}
-    echo completed
+    fusionfs_debug ${file_a} ${file_b}
     """
 }
 
 workflow {
-    ch_inputs = Channel.fromPath(params.input)
-        .splitCsv(header: true)
-        .map { meta -> [meta, meta.vcf] }
 
     task_ns = IntStream.rangeClosed(1, 50).boxed().toList()
+
     FUSIONFS_DEBUG(
-        ch_inputs,
-        params.annotations_dir,
+        params.file_a,
+        params.file_b,
         task_ns,
     )
+
 }
