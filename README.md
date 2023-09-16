@@ -24,7 +24,7 @@ EOF
 
 
 # Run
-NXF_VER=23.09.1-edge nextflow -config nextflow_aws.config run vcfanno.nf \
+NXF_VER=23.09.1-edge nextflow -config nextflow_aws.config run fusionfs_debug.nf \
   -ansi-log false \
   -work-dir ${nxf_workdir} \
   --input samplesheet.csv \
