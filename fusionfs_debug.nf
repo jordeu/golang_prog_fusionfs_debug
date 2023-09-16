@@ -4,7 +4,7 @@ import java.util.stream.IntStream
 process FUSIONFS_DEBUG {
     tag "${n}"
 
-    container 'docker.io/scwatts/fusionfs_debug:2309.15'
+    container 'docker.io/scwatts/fusionfs_debug:2309.17'
 
     input:
     path file_a

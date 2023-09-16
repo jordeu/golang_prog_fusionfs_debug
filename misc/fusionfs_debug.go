@@ -5,7 +5,6 @@ import (
     "flag"
     "fmt"
     "os"
-    "runtime"
 )
 
 
@@ -23,18 +22,12 @@ func main() {
     file_a := inFiles[0]
     file_b := inFiles[1]
 
-    // Required
-	_, err_a := os.Stat(file_a)
+    _, err_a := os.Stat(file_a)
     if err_a != nil {
         fmt.Fprintf(os.Stderr, "\nERROR: failed os.Stat call on: %s\n", file_a)
         panic(err_a)
     }
 
-    // Required
-    runtime.GOMAXPROCS(4)
-
-    // Trigger
-    // Must be a second file; does not work if provided file_a above
     _, err_b := os.Open(file_b)
     if err_b != nil {
         fmt.Fprintf(os.Stderr, "\nERROR: failed os.Open call on: %s\n", file_b)
