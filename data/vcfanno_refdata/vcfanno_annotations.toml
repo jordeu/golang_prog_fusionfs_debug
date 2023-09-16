@@ -1,5 +1,0 @@
-[[annotation]]
-file = "./vcfanno_refdata/annotations/High-Confidence_Regions_v1.2.bed.gz"
-names = ["SEQC_HIGHCONF"]
-columns = [3]
-ops = ["flag"]
