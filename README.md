@@ -1,7 +1,16 @@
+Reduced, generalised example workflow that causes FusionFS to crash. The workflow runs 50 tasks of a single process, and
+I observed a failure rate of ~10% in our environment.
+
+Tracking investigation in the [Nextflow Slack
+workspace](https://nextflow.slack.com/archives/C04EXGF2M6K/p1694688705924329).
+
+Please see [misc/fusionfs_debug.go](misc/fusionfs_debug.go) and corresponding [misc/README.md](misc/README.md) for
+process that triggers the FusionFS error.
+
 ```bash
 # Set some variables
 bucket_name=umccr-temp-dev
-bucket_key_base=stephen/vcfanno_fusionfs_debug
+bucket_key_base=stephen/golang_prog_fusionfs_debug
 
 inputs_dir=s3://${bucket_name}/${bucket_key_base}/input/
 
@@ -10,7 +19,7 @@ nxf_outdir=s3://${bucket_name}/${bucket_key_base}/output/
 
 
 # Clone GH repo, upload data
-git clone https://github.com/scwatts/vcfanno_fusionfs_debug/ && cd vcfanno_fusionfs_debug/
+git clone https://github.com/scwatts/golang_prog_fusionfs_debug/ && cd golang_prog_fusionfs_debug/
 
 # NOTE(SW): Inputs must be two separate files in different S3 'directories' to trigger
 base64 < /dev/random 2>/dev/null | head -c$(( 1500 * 1024 )) > file_a.txt
