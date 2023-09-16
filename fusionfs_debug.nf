@@ -4,7 +4,7 @@ import java.util.stream.IntStream
 process FUSIONFS_DEBUG {
     tag "${meta.id}"
 
-    container 'docker.io/scwatts/fusionfs_debug:2309.8'
+    container 'docker.io/scwatts/fusionfs_debug:2309.12'
 
     input:
     tuple val(meta), path(vcf)
