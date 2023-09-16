@@ -4,7 +4,7 @@ import java.util.stream.IntStream
 process FUSIONFS_DEBUG {
     tag "${meta.id}"
 
-    container 'docker.io/scwatts/fusionfs_debug:2309.1'
+    container 'docker.io/scwatts/fusionfs_debug:2309.8'
 
     input:
     tuple val(meta), path(vcf)
@@ -14,7 +14,7 @@ process FUSIONFS_DEBUG {
     script:
     """
     set -o pipefail
-    fusionfs_debug -p 4 ${annotations_dir}/vcfanno_annotations.toml ${vcf}
+    fusionfs_debug ${annotations_dir}/vcfanno_annotations.toml ${vcf}
     echo completed
     """
 }
