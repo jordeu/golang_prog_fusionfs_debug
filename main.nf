@@ -1,40 +1,30 @@
-plugins {
-    id 'nf-amazon'
+import java.util.stream.IntStream
+
+
+process FUSIONFS_DEBUG {
+    tag "${n}"
+
+    container 'docker.io/scwatts/fusionfs_debug:2309.17'
+
+    input:
+    path file_a
+    path file_b
+    each n
+
+    script:
+    """
+    fusionfs_debug ${file_a} ${file_b}
+    """
 }
 
-docker {
-    enabled = true
-}
+workflow {
 
-fusion {
-    enabled = true
-}
+    task_ns = IntStream.rangeClosed(1, 50).boxed().toList()
 
-wave {
-    enabled = true
-}
+    FUSIONFS_DEBUG(
+        params.file_a,
+        params.file_b,
+        task_ns,
+    )
 
-aws {
-    batch {
-        jobRole = 'arn:aws:iam::843407916570:role/NextflowApplicationDevSta-TaskBatchInstanceRolesas-19GNOYR22W9AP'
-        volumes = '/mnt/local_ephemeral/:/tmp/'
-    }
-}
-
-process {
-    executor = 'awsbatch'
-    scratch = false
-
-    errorStrategy = 'ignore'
-
-    withName: FUSIONFS_DEBUG {
-        queue = 'nextflow-task-4cpu_32gb'
-        cpus = 4
-        memory = 30.GB
-
-        publishDir = [
-            path: { "${params.outdir}" },
-            mode: 'copy'
-        ]
-    }
 }
